@@ -21,7 +21,7 @@ class ConfigFileReaderTest {
     @BeforeEach
     public void setUp(){
         configFileReader = new ConfigFileReader();
-        String contents = "content1 \n content2 \ncontent3";
+        String contents = "skip first Line \n content1 \n content2 \ncontent3";
         try (PrintWriter writer = new PrintWriter(FILE_PATH)) {
             writer.println(contents.trim());  // 내용 쓰기
         } catch (FileNotFoundException e) {
