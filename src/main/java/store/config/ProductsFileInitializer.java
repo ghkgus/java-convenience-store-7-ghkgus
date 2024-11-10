@@ -30,11 +30,11 @@ public class ProductsFileInitializer {
         for (String productsLine : productsLines) {
             List<String> product = Arrays.asList(productsLine.trim().split(","));
             validateProductSize(product);
-            //Promotion promotion = promotionRepository.findByKey(product.getLast());
+            ProductsFileParser productsFileParser = new ProductsFileParser(promotionRepository);
             if (isPromotionAppliedProduct(product.getLast())) {
-                updatePromotionProduct(product);
+                updatePromotionProduct(productsFileParser, product);
             } else {
-                updateOriginalProduct(product);
+                updateOriginalProduct(productsFileParser, product);
             }
         }
     }
@@ -49,8 +49,7 @@ public class ProductsFileInitializer {
         return !(promotionName.equals("null"));
     }
 
-    private void updatePromotionProduct(List<String> product) {
-        ProductsFileParser productsFileParser = new ProductsFileParser(promotionRepository);
+    private void updatePromotionProduct(ProductsFileParser productsFileParser, List<String> product) {
         Product newProducts = productsFileParser.parsePromotionProductFile(product);
         String name = productsFileParser.getName(product);
         if (productRepository.containsKey(name)) {
@@ -63,8 +62,7 @@ public class ProductsFileInitializer {
         productRepository.save(name, newProducts);
     }
 
-    private void updateOriginalProduct(List<String> product) {
-        ProductsFileParser productsFileParser = new ProductsFileParser(promotionRepository);
+    private void updateOriginalProduct(ProductsFileParser productsFileParser, List<String> product) {
         Product newProducts = productsFileParser.parseOriginalProductFile(product);
         String name = productsFileParser.getName(product);
         if (productRepository.containsKey(name)) {
