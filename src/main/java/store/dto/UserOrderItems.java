@@ -12,4 +12,11 @@ public class UserOrderItems {
     public List<UserOrderItem> getOrderItems() {
         return orderItems;
     }
+
+    @Override
+    public String toString() {
+        return "UserOrderItems{" +
+                "orderItems=" + orderItems +
+                '}';
+    }
 }
