@@ -11,11 +11,13 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import store.repository.ProductRepository;
+import store.repository.PromotionRepository;
 
 class ProductsFileInitializerTest {
 
     private ConfigFileReader configFileReader;
     private ProductRepository productRepository;
+    private PromotionRepository promotionRepository;
     private ProductsFileInitializer productsFileInitializer;
     private static final String FILE_PATH = "testFile.md";
     private static final String TEMP_FILE_PATH = "testFailFile.md";
@@ -24,8 +26,8 @@ class ProductsFileInitializerTest {
     void setUp() {
         configFileReader = new ConfigFileReader();
         productRepository = new ProductRepository();
-
-        productsFileInitializer = new ProductsFileInitializer(configFileReader, productRepository);
+        promotionRepository = new PromotionRepository();
+        productsFileInitializer = new ProductsFileInitializer(configFileReader, productRepository, promotionRepository);
     }
 
     @DisplayName("한 줄씩 읽을 때, 한줄에 4개의 값이 들어와있을 경우 똑바로 검증된다.")

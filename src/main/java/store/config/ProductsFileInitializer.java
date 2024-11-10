@@ -3,17 +3,21 @@ package store.config;
 import java.util.Arrays;
 import java.util.List;
 import store.domain.Product;
+import store.domain.Promotion;
 import store.repository.ProductRepository;
+import store.repository.PromotionRepository;
 import store.utils.parser.ProductsFileParser;
 
 public class ProductsFileInitializer {
 
     private final ConfigFileReader configFileReader;
     private final ProductRepository productRepository;
+    private final PromotionRepository promotionRepository;
 
-    public ProductsFileInitializer(ConfigFileReader configFileReader, ProductRepository productRepository) {
+    public ProductsFileInitializer(ConfigFileReader configFileReader, ProductRepository productRepository, PromotionRepository promotionRepository) {
         this.configFileReader = configFileReader;
         this.productRepository = productRepository;
+        this.promotionRepository = promotionRepository;
     }
 
     public void initialize(String productsPath) {
@@ -26,6 +30,7 @@ public class ProductsFileInitializer {
         for (String productsLine : productsLines) {
             List<String> product = Arrays.asList(productsLine.trim().split(","));
             validateProductSize(product);
+            //Promotion promotion = promotionRepository.findByKey(product.getLast());
             if (isPromotionAppliedProduct(product.getLast())) {
                 updatePromotionProduct(product);
             } else {
@@ -40,17 +45,18 @@ public class ProductsFileInitializer {
         }
     }
 
-    private boolean isPromotionAppliedProduct(String appliedPromotion) {
-        return !(appliedPromotion.equals("null"));
+    private boolean isPromotionAppliedProduct(String promotionName) {
+        return !(promotionName.equals("null"));
     }
 
     private void updatePromotionProduct(List<String> product) {
-        Product newProducts = ProductsFileParser.parsePromotionProductFile(product);
-        String name = ProductsFileParser.getName(product);
-        int promotionQuantity = ProductsFileParser.getPromotionQuantity(product);
-        String promotion = ProductsFileParser.getPromotion(product);
+        ProductsFileParser productsFileParser = new ProductsFileParser(promotionRepository);
+        Product newProducts = productsFileParser.parsePromotionProductFile(product);
+        String name = productsFileParser.getName(product);
         if (productRepository.containsKey(name)) {
             Product existedProduct = productRepository.findByKey(name);
+            int promotionQuantity = productsFileParser.getPromotionQuantity(product);
+            Promotion promotion = promotionRepository.findByKey(product.getLast());
             existedProduct.updatePromotionProduct(promotionQuantity, promotion);
             return;
         }
@@ -58,11 +64,12 @@ public class ProductsFileInitializer {
     }
 
     private void updateOriginalProduct(List<String> product) {
-        Product newProducts = ProductsFileParser.parseOriginalProductFile(product);
-        String name = ProductsFileParser.getName(product);
-        int originalQuantity = ProductsFileParser.getOriginalQuantity(product);
+        ProductsFileParser productsFileParser = new ProductsFileParser(promotionRepository);
+        Product newProducts = productsFileParser.parseOriginalProductFile(product);
+        String name = productsFileParser.getName(product);
         if (productRepository.containsKey(name)) {
             Product existedProduct = productRepository.findByKey(name);
+            int originalQuantity = productsFileParser.getOriginalQuantity(product);
             existedProduct.updateOriginalProduct(originalQuantity);
             return;
         }
