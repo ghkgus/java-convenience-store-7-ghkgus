@@ -1,0 +1,8 @@
+package store.domain;
+
+public enum GiftItemType {
+    NO_PROMOTION,
+    PARTIAL_PROMOTION_WITH_REGULAR_PRICE,
+    APPLIED_PROMOTION_WITHOUT_GIFT,
+    APPLIED_PROMOTION_WITH_GIFT
+}
