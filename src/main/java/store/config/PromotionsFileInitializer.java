@@ -1,8 +1,8 @@
 package store.config;
 
-import static store.constants.FileConstants.PROMOTION_FILE_SIZE;
-import static store.constants.FileConstants.SPLIT_REGEX;
-import static store.constants.FileErrorMessage.INVALID_FILE_CONTENT_FORM;
+import static store.constants.fileConstants.FileConstants.PROMOTION_FILE_SIZE;
+import static store.constants.fileConstants.FileConstants.SPLIT_REGEX;
+import static store.constants.fileConstants.FileErrorMessage.INVALID_FILE_CONTENT_FORM;
 
 import java.util.Arrays;
 import java.util.List;

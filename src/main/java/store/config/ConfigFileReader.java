@@ -1,7 +1,7 @@
 package store.config;
 
-import static store.constants.FileErrorMessage.INVALID_FILE;
-import static store.constants.FileErrorMessage.UNREADABLE_FILE;
+import static store.constants.fileConstants.FileErrorMessage.INVALID_FILE;
+import static store.constants.fileConstants.FileErrorMessage.UNREADABLE_FILE;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;

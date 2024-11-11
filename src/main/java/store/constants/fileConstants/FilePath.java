@@ -1,4 +1,4 @@
-package store.constants;
+package store.constants.fileConstants;
 
 public class FilePath {
     public final static String PRODUCT_MD_PATH = "src/main/resources/products.md";

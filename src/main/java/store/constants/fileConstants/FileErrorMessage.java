@@ -1,4 +1,4 @@
-package store.constants;
+package store.constants.fileConstants;
 
 public enum FileErrorMessage {
     INVALID_FILE("파일이 존재하지 않습니다."),
