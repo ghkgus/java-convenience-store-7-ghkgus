@@ -39,9 +39,9 @@ public class ProductsFileInitializer {
             ProductsFileParser productsFileParser = new ProductsFileParser(promotionRepository);
             if (isPromotionAppliedProduct(product.getLast())) {
                 updatePromotionProduct(productsFileParser, product);
-            } else {
-                updateOriginalProduct(productsFileParser, product);
+                continue;
             }
+            updateOriginalProduct(productsFileParser, product);
         }
     }
 
