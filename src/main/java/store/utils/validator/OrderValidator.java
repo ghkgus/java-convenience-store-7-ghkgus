@@ -1,5 +1,6 @@
 package store.utils.validator;
 
+import static store.constants.ErrorMessage.HAVE_TO_ONLY_NUM;
 import static store.constants.ErrorMessage.INVALID_FORM;
 import static store.constants.ErrorMessage.IS_EMPTY_INPUT;
 import static store.constants.OrderConstants.CONSECUTIVE_COMMA;
@@ -60,7 +61,7 @@ public class OrderValidator {
     private static void hasNonNumeric(String quantity) {
         for (int i = 0; i < quantity.length(); i++) {
             if (!Character.isDigit(quantity.charAt(i))) {
-                throw new IllegalArgumentException(INVALID_FORM.getMessage());
+                throw new IllegalArgumentException(HAVE_TO_ONLY_NUM.getMessage());
             }
         }
     }
