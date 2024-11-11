@@ -34,6 +34,10 @@ public class Promotion {
         return quantity / (buyCount + getCount) * getCount;
     }
 
+    public int getNonGiftQuantity(int orderQuantity, int promotionQuantity) {
+        return orderQuantity - promotionQuantity / (buyCount + getCount) * (buyCount + getCount);
+    }
+
     private boolean isAfterStartDate(LocalDateTime localDateTime) {
         return startDate.isBefore(localDateTime) || startDate.isEqual(localDateTime);
     }
@@ -41,15 +45,11 @@ public class Promotion {
     private boolean isBeforeEndDate(LocalDateTime localDateTime) {
         return endDate.isAfter(localDateTime) || endDate.isEqual(localDateTime);
     }
-    
+
     private boolean isGapEnoughForGift(int gapForQuantity) {
         return gapForQuantity >= getCount;
     }
-
-    public int getNonGiftQuantity(int orderQuantity, int promotionQuantity) {
-        return orderQuantity - promotionQuantity / (buyCount + getCount) * (buyCount + getCount);
-    }
-
+    
     private boolean isPossibleForGift(int orderQuantity) {
         return orderQuantity % (buyCount + getCount) == buyCount;
     }
