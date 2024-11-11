@@ -1,6 +1,6 @@
 package store.view;
 
-import static store.constants.InputMessage.*;
+import static store.constants.uiConstants.InputMessage.*;
 import camp.nextstep.edu.missionutils.Console;
 
 public class InputView {
