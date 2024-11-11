@@ -1,5 +1,12 @@
 package store.utils.parser;
 
+import static store.constants.fileConstants.FileConstants.DATE_FORMAT;
+import static store.constants.fileConstants.FileConstants.END_HOUR;
+import static store.constants.fileConstants.FileConstants.END_MIN;
+import static store.constants.fileConstants.FileConstants.END_SEC;
+import static store.constants.fileConstants.FileErrorMessage.IS_NOT_CORRECT_DATE_FORM;
+import static store.constants.fileConstants.FileErrorMessage.IS_NOT_INTEGER_RANGE;
+
 import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -11,7 +18,7 @@ import store.utils.validator.ParserValidator;
 public class PromotionsFileParser{
 
     public static Promotion getPromotions(List<String> promotion) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DATE_FORMAT);
 
         String name = getName(promotion);
         int buyQuantity = getBuyQuantity(promotion);
@@ -32,7 +39,7 @@ public class PromotionsFileParser{
         try {
             return Integer.parseInt(promotion.get(1));
         } catch (NumberFormatException e) {
-            throw new IllegalArgumentException("[ERROR] 정수범위의 수량이 아닙니다.");
+            throw new IllegalArgumentException(IS_NOT_INTEGER_RANGE.getMessage());
         }
     }
 
@@ -41,7 +48,7 @@ public class PromotionsFileParser{
         try {
             return Integer.parseInt(promotion.get(2));
         } catch (NumberFormatException e) {
-            throw new IllegalArgumentException("[ERROR] 정수범위의 수량이 아닙니다.");
+            throw new IllegalArgumentException(IS_NOT_INTEGER_RANGE.getMessage());
         }
     }
 
@@ -52,7 +59,7 @@ public class PromotionsFileParser{
             LocalDate startDateTime = LocalDate.parse(promotion.get(3), formatter);
             return startDateTime.atStartOfDay();
         } catch (DateTimeException e) {
-            throw new IllegalArgumentException("[ERROR] 날짜 형식이 올바르지 않습니다.");
+            throw new IllegalArgumentException(IS_NOT_CORRECT_DATE_FORM.getMessage());
         }
     }
 
@@ -60,9 +67,9 @@ public class PromotionsFileParser{
         ParserValidator.validateDate(promotion.getLast());
         try {
             LocalDate endDateTime = LocalDate.parse(promotion.getLast(), formatter);
-            return endDateTime.atTime(23, 59, 59);
+            return endDateTime.atTime(END_HOUR, END_MIN, END_SEC);
         } catch (DateTimeException e) {
-            throw new IllegalArgumentException("[ERROR] 종료 날짜 형식이 올바르지 않습니다.");
+            throw new IllegalArgumentException(IS_NOT_CORRECT_DATE_FORM.getMessage());
         }
     }
 }

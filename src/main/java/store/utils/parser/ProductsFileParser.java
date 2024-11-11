@@ -1,5 +1,8 @@
 package store.utils.parser;
 
+import static store.constants.ProductConstants.PROMOTION_NULL;
+import static store.constants.fileConstants.FileErrorMessage.IS_NOT_INTEGER_RANGE;
+
 import java.util.List;
 import store.domain.Product;
 import store.domain.Promotion;
@@ -43,7 +46,7 @@ public class ProductsFileParser {
         try {
             return Integer.parseInt(product.get(1));
         } catch (NumberFormatException e) {
-            throw new IllegalArgumentException("[ERROR] 정수범위의 가격이 아닙니다.");
+            throw new IllegalArgumentException(IS_NOT_INTEGER_RANGE.getMessage());
         }
     }
 
@@ -53,7 +56,7 @@ public class ProductsFileParser {
         try {
             return Integer.parseInt(product.get(2));
         } catch (NumberFormatException e) {
-            throw new IllegalArgumentException("[ERROR] 정수범위의 수량이 아닙니다.");
+            throw new IllegalArgumentException(IS_NOT_INTEGER_RANGE.getMessage());
         }
     }
 
@@ -63,15 +66,14 @@ public class ProductsFileParser {
         try {
             return Integer.parseInt(product.get(2));
         } catch (NumberFormatException e) {
-            throw new IllegalArgumentException("[ERROR] 정수범위의 수량이 아닙니다.");
+            throw new IllegalArgumentException(IS_NOT_INTEGER_RANGE.getMessage());
         }
     }
 
     public Promotion getPromotion(List<String> product) {
-        // null 일 경우 promotion.md에 없어서 containkey 했을 때 없을 것이다. => 어떻게 해야할까 -> ???
         ParserValidator.validateString(product.getLast());
         if (!promotionRepository.containsKey(product.getLast())) {
-            Promotion promotion = new Promotion("null", 0, 0, null, null);
+            Promotion promotion = new Promotion(PROMOTION_NULL, 0, 0, null, null);
             return promotion;
         }
         return promotionRepository.findByKey(product.getLast());
