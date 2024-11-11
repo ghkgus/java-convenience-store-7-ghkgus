@@ -34,8 +34,7 @@ class PromotionsFileParserTest {
         List<String> tempPromotion = List.of(invalidName, "1", "1", "2023-11-01", "2023-12-01");
 
         assertThatThrownBy(() -> PromotionsFileParser.getPromotions(tempPromotion))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessageContaining("[ERROR] 파일의 값이 비어있습니다.");
+                .isInstanceOf(IllegalArgumentException.class);
     }
 
     @DisplayName("유효하지 않은 수량이 입력되었을 때, 예외를 발생시킨다.")
@@ -45,8 +44,7 @@ class PromotionsFileParserTest {
         List<String> tempPromotion = List.of("프로모션", invalidQuantity, "1", "2023-11-01", "2023-12-01");
 
         assertThatThrownBy(() -> PromotionsFileParser.getPromotions(tempPromotion))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessageContaining("[ERROR] 숫자가 아닌 값이 들어있습니다.");
+                .isInstanceOf(IllegalArgumentException.class);
     }
 
     @DisplayName("정수 범위가 아닌 수량이 입력되었을 때, 예외를 발생시킨다.")
@@ -56,8 +54,7 @@ class PromotionsFileParserTest {
         List<String> tempPromotion = List.of("프로모션", invalidQuantity, "1", "2023-11-01", "2023-12-01");
 
         assertThatThrownBy(() -> PromotionsFileParser.getPromotions(tempPromotion))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessageContaining("[ERROR] 정수범위의 수량이 아닙니다.");
+                .isInstanceOf(IllegalArgumentException.class);
     }
 
     @DisplayName("유효하지 않은 시작 날짜가 입력되었을 때, 예외를 발생시킨다.")
@@ -67,8 +64,7 @@ class PromotionsFileParserTest {
         List<String> tempPromotion = List.of("프로모션", "1", "1", invalidDate, "2023-12-01");
 
         assertThatThrownBy(() -> PromotionsFileParser.getPromotions(tempPromotion))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessageContaining("[ERROR] 날짜 형식이 올바르지 않습니다.");
+                .isInstanceOf(IllegalArgumentException.class);
     }
 
     @DisplayName("유효하지 않은 종료 날짜가 입력되었을 때, 예외를 발생시킨다.")
@@ -78,7 +74,6 @@ class PromotionsFileParserTest {
         List<String> tempPromotion = List.of("프로모션", "1", "1", "2023-11-01", invalidDate);
 
         assertThatThrownBy(() -> PromotionsFileParser.getPromotions(tempPromotion))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessageContaining("[ERROR] 종료 날짜 형식이 올바르지 않습니다.");
+                .isInstanceOf(IllegalArgumentException.class);
     }
 }

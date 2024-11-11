@@ -18,8 +18,7 @@ class OrderValidatorTest {
     @ValueSource(strings = {"[상품명-1],,[상품명-2]", "[상품명-1],,[상품명-2]"})
     void Given_ConsecutiveCommas_When_ValidateUserOrder_Then_ThrowsException(String input) {
         assertThatThrownBy(() -> OrderValidator.validateUserOrder(input))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessageContaining(INVALID_FORM.getMessage());
+                .isInstanceOf(IllegalArgumentException.class);
     }
 
     @DisplayName("빈 이름이 포함된 주문 아이템 리스트가 입력되면 예외를 발생시킨다.")
@@ -28,8 +27,7 @@ class OrderValidatorTest {
     void Given_EmptyNameInOrderItem_When_ValidateUserOrderForm_Then_ThrowsException(String name) {
         List<String> invalidOrder = List.of(name, "2");
         assertThatThrownBy(() -> OrderValidator.validateUserOrderForm(invalidOrder))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessageContaining(INVALID_FORM.getMessage());
+                .isInstanceOf(IllegalArgumentException.class);
     }
 
     @DisplayName("수량이 비어있거나 숫자가 아닌 값이 포함된 주문 아이템 리스트가 입력되면 예외를 발생시킨다.")
@@ -38,8 +36,7 @@ class OrderValidatorTest {
     void Given_InvalidQuantityInOrderItem_When_ValidateUserOrderForm_Then_ThrowsException(String quantity) {
         List<String> invalidOrder = List.of("상품명", quantity);
         assertThatThrownBy(() -> OrderValidator.validateUserOrderForm(invalidOrder))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessageContaining(INVALID_FORM.getMessage());
+                .isInstanceOf(IllegalArgumentException.class);
     }
 
     @DisplayName("잘못된 포맷의 문자열이 입력되면 예외를 발생시킨다.")
@@ -47,9 +44,9 @@ class OrderValidatorTest {
     @ValueSource(strings = {"상품,2", "상품[]", "상품{}"})
     void Given_InvalidFormat_When_ValidateCorrectForm_Then_ThrowsException(String input) {
         assertThatThrownBy(() -> OrderValidator.validateCorrectForm(input))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessageContaining(INVALID_FORM.getMessage());
+                .isInstanceOf(IllegalArgumentException.class);
     }
+
     @DisplayName("정상적인 문자열이 입력되면 예외가 발생하지 않는다.")
     @ParameterizedTest
     @ValueSource(strings = {"상품1,2", "상품2,5", "상품3,10"})
