@@ -26,7 +26,8 @@ public class StoreController {
     private OrderService orderService;
     private ProductService productService;
 
-    public StoreController(InputView inputView, OutputView outputView, OrderService orderService, ProductService productService) {
+    public StoreController(InputView inputView, OutputView outputView, OrderService orderService,
+                           ProductService productService) {
         this.inputView = inputView;
         this.outputView = outputView;
         this.orderService = orderService;
@@ -34,12 +35,12 @@ public class StoreController {
     }
 
     public void run() {
-        while (true){
-            welcomeUser(); // 1. 환영인사하기, 보여 중인 재고 보여주기
-            OrderItems orderItems = getUserOrder(); // 2. 사용자 입력 받기 + 재고 확인하기 3. 재고 확인하고
-            List<UserOrderItem> orderItemsAppliedPromotion = applyPromotionToOrder(orderItems);// 3. 총 금액 계산하고, 프로모션 적용 여부 확인 후 행사 할인가 계산하기
-            showReceipt(orderItemsAppliedPromotion); // 5. 멤버십 회원 할인 여부, 할인가 6. 영수증 출력
-            updateStockStatus(orderItemsAppliedPromotion); // 7.재고 감소 후 추가 상품 할거? +
+        while (true) {
+            welcomeUser();
+            OrderItems orderItems = getUserOrder();
+            List<UserOrderItem> orderItemsAppliedPromotion = applyPromotionToOrder(orderItems);
+            showReceipt(orderItemsAppliedPromotion);
+            updateStockStatus(orderItemsAppliedPromotion);
             if (!wantToRepurchase()) {
                 break;
             }
@@ -53,7 +54,7 @@ public class StoreController {
     }
 
     private OrderItems getUserOrder() {
-        while(true) {
+        while (true) {
             try {
                 String userOrderItem = inputView.getUserOrder();
                 OrderValidator.validateUserOrder(userOrderItem);
@@ -75,8 +76,7 @@ public class StoreController {
         return finalOrderItems;
     }
 
-
-    private void addItemAccordingToType(UserOrderItem orderItem ,List<UserOrderItem> finalOrderItems) {
+    private void addItemAccordingToType(UserOrderItem orderItem, List<UserOrderItem> finalOrderItems) {
         if (orderItem.getType() == NO_PROMOTION || orderItem.getType() == APPLIED_PROMOTION_WITHOUT_GIFT) {
             finalOrderItems.add(orderItem);
             return;
@@ -133,7 +133,7 @@ public class StoreController {
         long totalQuantity = productService.calculateTotalQuantity(orderItems);
         long promotionDiscountPrice = productService.calculatePromotionDiscount(orderItems);
         int memberShipDiscountPrice = 0;
-        if (applyMemberShipToOrder(orderItems)) {
+        if (applyMemberShipToOrder()) {
             memberShipDiscountPrice = productService.calculateMembershipDiscount(orderItems);
         }
         List<UserReceipt> receipt = productService.calculateOrderProductPrice(orderItems);
@@ -141,7 +141,7 @@ public class StoreController {
         outputView.printReceiptPrice(totalQuantity, totalPrice, promotionDiscountPrice, memberShipDiscountPrice);
     }
 
-    private boolean applyMemberShipToOrder(List<UserOrderItem> orderItems) {
+    private boolean applyMemberShipToOrder() {
         while (true) {
             try {
                 String answer = inputView.askUserToApplyMembership();
