@@ -1,6 +1,6 @@
 package store.domain;
 
-
+import static store.constants.ProductConstants.PROMOTION_NULL;
 import static store.domain.GiftItemType.APPLIED_PROMOTION_WITHOUT_GIFT;
 import static store.domain.GiftItemType.APPLIED_PROMOTION_WITH_GIFT;
 import static store.domain.GiftItemType.PARTIAL_PROMOTION_WITH_REGULAR_PRICE;
@@ -43,7 +43,7 @@ public class Product {
     }
 
     public boolean hasPromotion(LocalDateTime localDateTime) {
-        if (promotion.getName().equals("null")) {
+        if (promotion.getName().equals(PROMOTION_NULL)) {
             return false;
         }
         return promotion.hasActivePromotion(localDateTime);
