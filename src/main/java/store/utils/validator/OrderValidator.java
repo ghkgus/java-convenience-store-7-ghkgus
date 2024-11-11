@@ -1,6 +1,11 @@
 package store.utils.validator;
 
 import static store.constants.ErrorMessage.INVALID_FORM;
+import static store.constants.ErrorMessage.IS_EMPTY_INPUT;
+import static store.constants.OrderConstants.CONSECUTIVE_COMMA;
+import static store.constants.OrderConstants.LEFT_SQUARE_BRACKET;
+import static store.constants.OrderConstants.PRODUCT_AND_QUANTITY_SIZE;
+import static store.constants.OrderConstants.RIGHT_SQUARE_BRACKET;
 
 import java.util.List;
 
@@ -27,18 +32,18 @@ public class OrderValidator {
 
     private static void hasEmptyInput(String order) {
         if (order.isBlank()) {
-            throw new IllegalArgumentException(INVALID_FORM.getMessage());
+            throw new IllegalArgumentException(IS_EMPTY_INPUT.getMessage());
         }
     }
 
     private static void hasConsecutiveComma(String userOrderItems) {
-        if (userOrderItems.contains(",,")) {
+        if (userOrderItems.contains(CONSECUTIVE_COMMA)) {
             throw new IllegalArgumentException(INVALID_FORM.getMessage());
         }
     }
 
     private static void checkSize(List<String> orderItem) {
-        if (orderItem.size() != 2) {
+        if (orderItem.size() != PRODUCT_AND_QUANTITY_SIZE) {
             throw new IllegalArgumentException(INVALID_FORM.getMessage());
         }
     }
@@ -60,8 +65,8 @@ public class OrderValidator {
         }
     }
 
-    private static void checkCorrectForm(String beforeCheckOrderItem) {
-        if (!(beforeCheckOrderItem.startsWith("[") && beforeCheckOrderItem.endsWith("]"))) {
+    private static void checkCorrectForm(String orderItem) {
+        if (!(orderItem.startsWith(LEFT_SQUARE_BRACKET) && orderItem.endsWith(RIGHT_SQUARE_BRACKET))) {
             throw new IllegalArgumentException(INVALID_FORM.getMessage());
         }
     }
