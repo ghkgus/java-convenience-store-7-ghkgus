@@ -1,5 +1,7 @@
 package store.dto;
 
+import static store.constants.OrderConstants.OUT_OF_STOCK;
+
 import store.domain.Promotion;
 
 public class CurrentStockInfo {
@@ -19,7 +21,7 @@ public class CurrentStockInfo {
     }
 
     public String toFormattedPromotionZeroStatus() {
-        return String.format("- %s %,d원 %s %s", name, price, "재고 없음", promotion.getName());
+        return String.format("- %s %,d원 %s %s", name, price, OUT_OF_STOCK, promotion.getName());
     }
 
     public String toFormattedPromotionStatus() {
@@ -27,7 +29,7 @@ public class CurrentStockInfo {
     }
 
     public String toFormattedOriginalZeroStatus() {
-        return String.format("- %s %,d원 %s %s", name, price, "재고 없음", "");
+        return String.format("- %s %,d원 %s %s", name, price, OUT_OF_STOCK, "");
     }
 
     public String toFormattedOriginalStatus() {
@@ -48,10 +50,6 @@ public class CurrentStockInfo {
 
     public int getPromotionQuantity() {
         return promotionQuantity;
-    }
-
-    public Promotion getPromotion() {
-        return promotion;
     }
 
     public String getPromotionName() {
