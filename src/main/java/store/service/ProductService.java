@@ -1,5 +1,7 @@
 package store.service;
 
+import static store.constants.ProductConstants.MEMBERSHIP_DISCOUNT_PERCENT;
+import static store.constants.ProductConstants.MEMBERSHIP_MAX_DISCOUNT;
 import static store.domain.GiftItemType.APPLIED_PROMOTION_WITHOUT_GIFT;
 import static store.domain.GiftItemType.APPLIED_PROMOTION_WITH_GIFT;
 import static store.domain.GiftItemType.NO_PROMOTION;
@@ -48,8 +50,6 @@ public class ProductService {
     public long calculateTotalQuantity(List<UserOrderItem> orderItems) {
         long totalQuantity = 0;
         for (UserOrderItem orderItem : orderItems) {
-            Product product = productRepository.findByKey(orderItem.getName());
-
             totalQuantity += (long) orderItem.getTotalQuantity();
         }
         return totalQuantity;
@@ -101,9 +101,9 @@ public class ProductService {
 
     private int calculateDiscountForNonPromotion(int nonPromotionTotalPrice) {
         int discountPrice = 0;
-        discountPrice = (int) (nonPromotionTotalPrice * 0.3);
-        if (discountPrice > 8000) {
-            discountPrice = 8000;
+        discountPrice = (int) (nonPromotionTotalPrice * MEMBERSHIP_DISCOUNT_PERCENT);
+        if (discountPrice > MEMBERSHIP_MAX_DISCOUNT) {
+            discountPrice = MEMBERSHIP_MAX_DISCOUNT;
         }
         return discountPrice;
     }
