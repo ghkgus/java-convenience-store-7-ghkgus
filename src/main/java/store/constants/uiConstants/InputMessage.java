@@ -1,4 +1,4 @@
-package store.constants;
+package store.constants.uiConstants;
 
 public enum InputMessage {
 
