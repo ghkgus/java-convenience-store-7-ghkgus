@@ -9,6 +9,7 @@ public class OrderConstants {
     public static final String RIGHT_SQUARE_BRACKET = "]";
 
     public static final String HYPHEN = "-";
+    public static final String COMMA = ",";
     private OrderConstants() {
 
     }

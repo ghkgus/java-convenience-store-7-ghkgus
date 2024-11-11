@@ -4,6 +4,7 @@ import static store.constants.ErrorMessage.HAVE_TO_INTEGER_RANGE;
 import static store.constants.ErrorMessage.HAVE_TO_OVER_ONE;
 import static store.constants.ErrorMessage.INVALID_PRODUCT_NAME;
 import static store.constants.ErrorMessage.OVER_STOCK_QUANTITY;
+import static store.constants.OrderConstants.COMMA;
 import static store.constants.OrderConstants.HYPHEN;
 
 import camp.nextstep.edu.missionutils.DateTimes;
@@ -30,7 +31,7 @@ public class OrderService {
     }
 
     public OrderItems createOrder(String userOrderItem) {
-        List<String> beforeCheckOrderItems = Arrays.asList(userOrderItem.trim().split(HYPHEN));
+        List<String> beforeCheckOrderItems = Arrays.asList(userOrderItem.trim().split(COMMA));
         return makeOrder(beforeCheckOrderItems);
     }
 
