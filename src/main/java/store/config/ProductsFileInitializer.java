@@ -1,5 +1,7 @@
 package store.config;
 
+import static store.constants.FileErrorMessage.INVALID_FILE_CONTENT_FORM;
+
 import java.util.Arrays;
 import java.util.List;
 import store.domain.Product;
@@ -41,7 +43,7 @@ public class ProductsFileInitializer {
 
     private void validateProductSize(List<String> product) {
         if (product.size() != 4) {
-            throw new IllegalArgumentException("[ERROR] 파일의 형식이 잘못되었습니다.");
+            throw new IllegalArgumentException(INVALID_FILE_CONTENT_FORM.getMessage());
         }
     }
 

@@ -1,5 +1,8 @@
 package store.config;
 
+import static store.constants.FileErrorMessage.INVALID_FILE;
+import static store.constants.FileErrorMessage.UNREADABLE_FILE;
+
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -14,9 +17,9 @@ public class ConfigFileReader {
         try {
             getFile(filePath, newFiles);
         } catch (FileNotFoundException e) {
-            throw new RuntimeException("[ERROR] 파일이 존재하지 않습니다.");
+            throw new RuntimeException(INVALID_FILE.getMessage());
         } catch (IOException e) {
-            throw new RuntimeException("[ERROR] 파일을 읽을 수 없습니다.");
+            throw new RuntimeException(UNREADABLE_FILE.getMessage());
         }
         return newFiles;
     }
