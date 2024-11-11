@@ -5,13 +5,13 @@ import static store.domain.GiftItemType.APPLIED_PROMOTION_WITH_GIFT;
 import static store.domain.GiftItemType.NO_PROMOTION;
 import static store.domain.GiftItemType.PARTIAL_PROMOTION_WITH_REGULAR_PRICE;
 
-import camp.nextstep.edu.missionutils.DateTimes;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import store.domain.GiftItemType;
 import store.domain.Product;
+import store.domain.Receipt;
 import store.dto.CurrentStockInfo;
+import store.dto.UserReceipt;
 import store.dto.UserOrderItem;
 import store.repository.ProductRepository;
 
@@ -35,14 +35,24 @@ public class ProductService {
     }
 
     public long calculateTotalPrice(List<UserOrderItem> orderItems) {
-        int totalPrice = 0;
+        long totalPrice = 0;
         for (UserOrderItem orderItem : orderItems) {
             Product product = productRepository.findByKey(orderItem.getName());
             CurrentStockInfo currentStockInfo = product.getCurrentStockInfo();
 
-            totalPrice += (orderItem.getTotalQuantity() * currentStockInfo.getPrice());
+            totalPrice += (long) orderItem.getTotalQuantity() * currentStockInfo.getPrice();
         }
         return totalPrice;
+    }
+
+    public long calculateTotalQuantity(List<UserOrderItem> orderItems) {
+        long totalQuantity = 0;
+        for (UserOrderItem orderItem : orderItems) {
+            Product product = productRepository.findByKey(orderItem.getName());
+
+            totalQuantity += (long) orderItem.getTotalQuantity();
+        }
+        return totalQuantity;
     }
 
     public long calculatePromotionDiscount(List<UserOrderItem> orderItems) {
@@ -66,6 +76,18 @@ public class ProductService {
             }
         }
         return calculateDiscountForNonPromotion(nonPromotionTotalPrice);
+    }
+
+    public List<UserReceipt> calculateOrderProductPrice(List<UserOrderItem> orderItems) {
+        List<UserReceipt> receipt = new ArrayList<>();
+        for (UserOrderItem orderItem : orderItems) {
+            Product product = productRepository.findByKey(orderItem.getName());
+            CurrentStockInfo currentStockInfo = product.getCurrentStockInfo();
+            int totalPricePerProduct = orderItem.getTotalQuantity() * currentStockInfo.getPrice();
+            Receipt itemReceipt = new Receipt(orderItem, totalPricePerProduct);
+            receipt.add(itemReceipt.getOderItem());
+        }
+        return receipt;
     }
 
     public void updateStockAfterSale(List<UserOrderItem> orderItems) {
@@ -97,5 +119,4 @@ public class ProductService {
             product.updateStockForPromotion(totalQuantity);
         }
     }
-
 }
