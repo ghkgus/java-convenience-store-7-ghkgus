@@ -1,5 +1,10 @@
 package store.view;
 
+import static store.constants.ProductConstants.PROMOTION_NULL;
+import static store.constants.uiConstants.OutputMessage.SHOW_CURRENT_STOCK_STATUS;
+import static store.constants.uiConstants.OutputMessage.START_MESSAGE_FOR_RECEIPT;
+import static store.constants.uiConstants.OutputMessage.WELCOME_TO_USER;
+
 import java.util.List;
 import store.dto.CurrentStockInfo;
 import store.dto.UserReceipt;
@@ -8,14 +13,14 @@ import store.dto.UserOrderItem;
 public class OutputView {
 
     public void printWelcomeMessage() {
-        System.out.println("안녕하세요. W편의점입니다.");
+        System.out.println(WELCOME_TO_USER);
     }
 
     public void printProductsStatus(List<CurrentStockInfo> currentStockInfos) {
         printStoreStatusMessage();
         for (CurrentStockInfo currentStockInfo : currentStockInfos) {
             String promotionName = currentStockInfo.getPromotionName();
-            if (!promotionName.equals("null")) {
+            if (!promotionName.equals(PROMOTION_NULL)) {
                 printPromotionStatus(currentStockInfo);
             }
             printOriginalStatus(currentStockInfo);
@@ -27,7 +32,7 @@ public class OutputView {
     }
 
     private void printStoreStatusMessage() {
-        System.out.println("현재 보유하고 있는 상품입니다.\n");
+        System.out.println(SHOW_CURRENT_STOCK_STATUS.getMessage());
     }
 
     private void printPromotionStatus(CurrentStockInfo currentStockInfo) {
@@ -47,12 +52,18 @@ public class OutputView {
     }
 
     public void printReceiptInfo(List<UserReceipt> receipt) {
+        if (receipt.isEmpty()) {
+            return;
+        }
         printOrderReceiptInfo(receipt);
         printFreeGiftInfo(receipt);
     }
 
     public void printReceiptPrice(long totalQuantity, long totalPrice, long promotionDiscountPrice,
                                   int memberShipDiscountPrice) {
+        if (totalQuantity == 0) {
+            return;
+        }
         printTotalPrice(totalQuantity, totalPrice);
         printPromotionDiscountPrice(promotionDiscountPrice);
         printMemberShipDiscountPrice(memberShipDiscountPrice);
@@ -60,7 +71,7 @@ public class OutputView {
     }
 
     private static void printOrderReceiptInfo(List<UserReceipt> receipt) {
-        System.out.println("\n==============W 편의점================");
+        System.out.println(START_MESSAGE_FOR_RECEIPT);
         System.out.println("상품명                수량        금액");
         for (UserReceipt userItemReceipt : receipt) {
             System.out.printf("%s                %,d        %,d\n", userItemReceipt.getProductName(),
