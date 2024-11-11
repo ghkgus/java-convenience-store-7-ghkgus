@@ -3,8 +3,8 @@ package store.dto;
 import store.domain.GiftItemType;
 
 public class UserOrderItem {
-    private String name;
 
+    private String name;
     private GiftItemType type;
     private int totalQuantity;
     private int giftQuantity;
@@ -21,17 +21,6 @@ public class UserOrderItem {
 
     public String getName() {
         return name;
-    }
-
-    @Override
-    public String toString() {
-        return "UserOrderItem{" +
-                "name='" + name + '\'' +
-                ", type=" + type +
-                ", totalQuantity=" + totalQuantity +
-                ", giftQuantity=" + giftQuantity +
-                ", nonGiftQuantity=" + nonGiftQuantity +
-                '}';
     }
 
     public GiftItemType getType() {
