@@ -22,10 +22,7 @@ public class Promotion {
     }
 
     public boolean hasActivePromotion(LocalDateTime localDateTime) {
-        if (!(localDateTime.isBefore(startDate) && localDateTime.isAfter(endDate))) {
-            return true;
-        }
-        return false;
+        return isAfterStartDate(localDateTime) && isBeforeEndDate(localDateTime);
     }
 
     public boolean isEnoughForAdditionalGift(int promotionQuantity, int orderQuantity) {
@@ -37,6 +34,14 @@ public class Promotion {
         return quantity / (buyCount + getCount) * getCount;
     }
 
+    private boolean isAfterStartDate(LocalDateTime localDateTime) {
+        return startDate.isBefore(localDateTime) || startDate.isEqual(localDateTime);
+    }
+
+    private boolean isBeforeEndDate(LocalDateTime localDateTime) {
+        return endDate.isAfter(localDateTime) || endDate.isEqual(localDateTime);
+    }
+    
     private boolean isGapEnoughForGift(int gapForQuantity) {
         return gapForQuantity >= getCount;
     }
