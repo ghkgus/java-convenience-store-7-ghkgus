@@ -1,8 +1,10 @@
 package store.service;
 
+import static store.constants.ErrorMessage.HAVE_TO_INTEGER_RANGE;
+import static store.constants.ErrorMessage.HAVE_TO_OVER_ONE;
 import static store.constants.ErrorMessage.INVALID_PRODUCT_NAME;
-import static store.constants.ErrorMessage.INVALID_INPUT;
 import static store.constants.ErrorMessage.OVER_STOCK_QUANTITY;
+import static store.constants.OrderConstants.HYPHEN;
 
 import camp.nextstep.edu.missionutils.DateTimes;
 import java.util.ArrayList;
@@ -28,7 +30,7 @@ public class OrderService {
     }
 
     public OrderItems createOrder(String userOrderItem) {
-        List<String> beforeCheckOrderItems = Arrays.asList(userOrderItem.trim().split(","));
+        List<String> beforeCheckOrderItems = Arrays.asList(userOrderItem.trim().split(HYPHEN));
         return makeOrder(beforeCheckOrderItems);
     }
 
@@ -57,7 +59,7 @@ public class OrderService {
 
     private List<String> getOrderItem(String beforeCheckOrderItem) {
         String itemWithoutBrackets = beforeCheckOrderItem.substring(1, beforeCheckOrderItem.length() - 1);
-        List<String> orderItem = Arrays.asList(itemWithoutBrackets.split("-"));
+        List<String> orderItem = Arrays.asList(itemWithoutBrackets.split(HYPHEN));
 
         OrderValidator.validateUserOrderForm(orderItem);
         return orderItem;
@@ -69,7 +71,7 @@ public class OrderService {
 
         int quantity = orderQuantity(orderItem.getLast());
         if (quantity == 0) {
-            throw new IllegalArgumentException(INVALID_INPUT.getMessage());
+            throw new IllegalArgumentException(HAVE_TO_OVER_ONE.getMessage());
         }
         addOrderQuantity(afterCheckOrderItems, productName, quantity);
     }
@@ -78,7 +80,7 @@ public class OrderService {
         try {
             return Integer.parseInt(orderQuantity);
         } catch (IllegalArgumentException e) {
-            throw new IllegalArgumentException(INVALID_INPUT.getMessage());
+            throw new IllegalArgumentException(HAVE_TO_INTEGER_RANGE.getMessage());
         }
     }
 
