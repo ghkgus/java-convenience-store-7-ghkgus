@@ -1,7 +1,6 @@
 package store.dto;
 
 import store.domain.Promotion;
-import store.repository.PromotionRepository;
 
 public class CurrentStockInfo {
 
@@ -19,8 +18,16 @@ public class CurrentStockInfo {
         this.promotion = promotion;
     }
 
+    public String toFormattedPromotionZeroStatus() {
+        return String.format("- %s %,d원 %s %s", name, price, "재고 없음", promotion.getName());
+    }
+
     public String toFormattedPromotionStatus() {
         return String.format("- %s %,d원 %,d개 %s", name, price, promotionQuantity, promotion.getName());
+    }
+
+    public String toFormattedOriginalZeroStatus() {
+        return String.format("- %s %,d원 %s %s", name, price, "재고 없음", "");
     }
 
     public String toFormattedOriginalStatus() {
