@@ -1,5 +1,7 @@
 package store.config;
 
+import static store.constants.FileConstants.PROMOTION_FILE_SIZE;
+import static store.constants.FileConstants.SPLIT_REGEX;
 import static store.constants.FileErrorMessage.INVALID_FILE_CONTENT_FORM;
 
 import java.util.Arrays;
@@ -25,7 +27,7 @@ public class PromotionsFileInitializer {
 
     private void initializePromotions(List<String> promotionsLines) {
         for (String promotionsLine : promotionsLines) {
-            List<String> promotion = Arrays.asList(promotionsLine.trim().split(","));
+            List<String> promotion = Arrays.asList(promotionsLine.trim().split(SPLIT_REGEX));
             validateSize(promotion);
             Promotion newPromotions = PromotionsFileParser.getPromotions(promotion);
             promotionRepository.save(promotion.getFirst(), newPromotions);
@@ -33,9 +35,8 @@ public class PromotionsFileInitializer {
     }
 
     private void validateSize(List<String> promotion) {
-        if (promotion.size() != 5) {
+        if (promotion.size() != PROMOTION_FILE_SIZE) {
             throw new IllegalArgumentException(INVALID_FILE_CONTENT_FORM.getMessage());
         }
     }
-
 }
